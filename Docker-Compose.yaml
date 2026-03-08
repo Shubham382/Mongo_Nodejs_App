@@ -8,6 +8,9 @@ services:
     depends_on:
       - backend
     restart: always
+    volumes:
+      # The same volume can be shared with other services
+       - ./public:/usr/share/nginx/html
     networks:
      - nodeapp
 
@@ -20,6 +23,9 @@ services:
       - mongo
 
     restart: always
+    volumes:
+      # The same volume can be shared with other services
+      - ./Backend:/app
     networks:
      - nodeapp
 
@@ -34,6 +40,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: qwerty
     
     restart: always
+    volumes:
+      # The same volume can be shared with other services
+      - mongovolume:/data/db
     networks:
        - nodeapp
 
@@ -50,9 +59,14 @@ services:
     depends_on:
       - mongo
     restart: always
-
+    
     networks:
      - nodeapp
 networks:
   nodeapp:
     driver: bridge
+volumes:
+      # The same volume can be shared with other services
+       mongovolume:
+       publicvolume:
+       backendvolume:
